@@ -1,1 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambola des Taulards 🎟️</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Tambola des Taulards 🎟️</h1>
+  </header>
 
+  <!-- FORMULAIRE INSCRIPTION -->
+  <section class="registration-form-section">
+    <h2>Créer un Compte Utilisateur 👤</h2>
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="username">Nom :</label>
+        <input type="text" id="username" required>
+      </div>
+      <div class="form-group">
+        <label for="emailReg">Email :</label>
+        <input type="email" id="emailReg" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de Passe :</label>
+        <input type="password" id="password" required>
+      </div>
+      <button type="submit">S’inscrire</button>
+    </form>
+    <p>Déjà inscrit ? <a href="#" id="showLogin">Connectez-vous ici</a></p>
+  </section>
+
+  <!-- FORMULAIRE CONNEXION -->
+  <section class="login-form-section" style="display:none;">
+    <h2>Connexion 🔑</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="emailLogin">Email :</label>
+        <input type="email" id="emailLogin" required>
+      </div>
+      <div class="form-group">
+        <label for="passwordLogin">Mot de Passe :</label>
+        <input type="password" id="passwordLogin" required>
+      </div>
+      <button type="submit">Se connecter</button>
+    </form>
+    <p>Pas encore inscrit ? <a href="#" id="showRegister">Créez un compte</a></p>
+  </section>
+
+  <!-- OFFRES DE TICKETS -->
+  <section class="ticket-offers">
+    <h2>Nos Offres de Tickets</h2>
+    <div class="offer-cards">
+      <div class="card">
+        <h3>1 Ticket</h3>
+        <p>10€</p>
+        <button onclick="buyTickets(1, 10)">Acheter</button>
+      </div>
+      <div class="card">
+        <h3>2 Tickets</h3>
+        <p>15€</p>
+        <button onclick="buyTickets(2, 15)">Acheter</button>
+      </div>
+      <div class="card">
+        <h3>3 Tickets</h3>
+        <p>35€</p>
+        <button onclick="buyTickets(3, 35)">Acheter</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOTS À GAGNER -->
+  <section class="prizes-section">
+    <h2>🎁 Lots à Gagner</h2>
+    <ul>
+      <li><img src="images/drone.png" alt="Drone"> Drone FPV (portée 3 km)</li>
+      <li><img src="images/boules.png" alt="Boules"> 6 Boules offertes</li>
+      <li><img src="images/billets.png" alt="Billets d'argent"> 400€ (PCS / PayPal)</li>
+      <li><img src="images/iphone.png" alt="iPhone"> 3 iPhone 12 mini</li>
+    </ul>
+  </section>
+
+  <footer>
+    © 2025 Tambola des Taulards — Tous droits réservés
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
