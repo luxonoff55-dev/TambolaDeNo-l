@@ -4,210 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tambola des Taulards 🎟️</title>
+  <!-- Lien vers le CSS externe -->
   <link rel="stylesheet" href="css/style.css">
+
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-  <style>
-    /* === STYLE GLOBAL === */
-    :root {
-      --bg-dark: #0f111a;
-      --bg-card: #1a1c29;
-      --text-light: #f5f5f7;
-      --accent: #ff4d6d;
-      --accent2: #00d4ff;
-      --gradient: linear-gradient(135deg, #ff4d6d, #6c63ff);
-      --radius: 15px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
-
-    body {
-      background: var(--bg-dark);
-      color: var(--text-light);
-      line-height: 1.6;
-      scroll-behavior: smooth;
-    }
-
-    header {
-      text-align: center;
-      padding: 3rem 1rem;
-      background: var(--gradient);
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
-    }
-
-    header h1 {
-      font-size: 2.6rem;
-      letter-spacing: 1px;
-      animation: fadeInDown 1s ease-in-out;
-    }
-
-    @keyframes fadeInDown {
-      from {opacity: 0; transform: translateY(-20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    section {
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* === OFFRES DE TICKETS === */
-    .offer-cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      padding: 2rem;
-      width: 250px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      transition: all 0.3s;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .card:hover {
-      transform: translateY(-8px) scale(1.03);
-      border-color: var(--accent);
-      box-shadow: 0 10px 25px rgba(255,77,109,0.4);
-    }
-
-    .card h3 {
-      color: var(--accent2);
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .card p {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-    }
-
-    button {
-      background: var(--gradient);
-      color: white;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      border-radius: 25px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    button:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 15px var(--accent);
-    }
-
-    /* === FORMULAIRES === */
-    form {
-      background: var(--bg-card);
-      padding: 2rem;
-      border-radius: var(--radius);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-      max-width: 450px;
-      margin: 2rem auto;
-      text-align: left;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-
-    input {
-      width: 100%;
-      padding: 0.6rem;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: #2a2c3d;
-      color: white;
-      font-size: 1rem;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: var(--accent2);
-      box-shadow: 0 0 5px var(--accent2);
-    }
-
-    /* === LOTS === */
-    .prizes-section ul {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .prizes-section li {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      padding: 1rem;
-      width: 200px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .prizes-section li:hover {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 0 15px var(--accent2);
-    }
-
-    .prizes-section li img {
-      width: 50px;
-      height: 50px;
-      margin-bottom: 0.5rem;
-    }
-
-    /* === FOOTER === */
-    footer {
-      text-align: center;
-      padding: 1.5rem 1rem;
-      color: rgba(255,255,255,0.6);
-      font-size: 0.9rem;
-      margin-top: 2rem;
-    }
-
-    /* === RESPONSIVE === */
-    @media (max-width: 600px) {
-      header h1 { font-size: 2rem; }
-      .card { width: 90%; }
-      form { width: 90%; }
-      .prizes-section li { width: 45%; }
-    }
-  </style>
 </head>
 <body>
   <header>
@@ -216,7 +19,7 @@
 
   <!-- FORMULAIRE INSCRIPTION -->
   <section class="registration-form-section">
-    <h2>Créer un Compte Utilisateur 👤</h2>
+    <h2>Créer un Compte 👤</h2>
     <form id="registerForm">
       <div class="form-group">
         <label for="username">Nom :</label>
@@ -256,21 +59,9 @@
   <section class="ticket-offers">
     <h2>Nos Offres de Tickets</h2>
     <div class="offer-cards">
-      <div class="card">
-        <h3>1 Ticket</h3>
-        <p>10€</p>
-        <button onclick="buyTickets(1, 10)">Acheter</button>
-      </div>
-      <div class="card">
-        <h3>2 Tickets</h3>
-        <p>15€</p>
-        <button onclick="buyTickets(2, 15)">Acheter</button>
-      </div>
-      <div class="card">
-        <h3>3 Tickets</h3>
-        <p>35€</p>
-        <button onclick="buyTickets(3, 35)">Acheter</button>
-      </div>
+      <div class="card"><h3>1 Ticket</h3><p>10€</p><button onclick="buyTickets(1,10)">Acheter</button></div>
+      <div class="card"><h3>2 Tickets</h3><p>15€</p><button onclick="buyTickets(2,15)">Acheter</button></div>
+      <div class="card"><h3>3 Tickets</h3><p>35€</p><button onclick="buyTickets(3,35)">Acheter</button></div>
     </div>
   </section>
 
@@ -278,10 +69,10 @@
   <section class="prizes-section">
     <h2>🎁 Lots à Gagner</h2>
     <ul>
-      <li><img src="images/drone.png" alt="Drone"> Drone FPV (portée 3 km)</li>
-      <li><img src="images/boules.png" alt="Boules"> 6 Boules offertes</li>
-      <li><img src="images/billets.png" alt="Billets d'argent"> 400€ (PCS / PayPal)</li>
-      <li><img src="images/iphone.png" alt="iPhone"> 3 iPhone 12 mini</li>
+      <li><img src="images/drone.png" alt="Drone">Drone FPV</li>
+      <li><img src="images/boules.png" alt="Boules">6 Boules offertes</li>
+      <li><img src="images/billets.png" alt="Billets d'argent">400€ (PCS / PayPal)</li>
+      <li><img src="images/iphone.png" alt="iPhone">3 iPhone 12 mini</li>
     </ul>
   </section>
 
