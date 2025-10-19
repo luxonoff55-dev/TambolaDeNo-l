@@ -13,9 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const database = firebase.database ? firebase.database() : null;
 
-// ==========================
-// INSCRIPTION
-// ==========================
+// ==== INSCRIPTION ====
 const registerForm = document.getElementById("registerForm");
 if (registerForm) {
   registerForm.addEventListener("submit", (e) => {
@@ -41,9 +39,7 @@ if (registerForm) {
   });
 }
 
-// ==========================
-// CONNEXION
-// ==========================
+// ==== CONNEXION ====
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", (e) => {
@@ -61,9 +57,7 @@ if (loginForm) {
   });
 }
 
-// ==========================
-// BASCULE FORMULAIRES
-// ==========================
+// ==== TOGGLE FORMULAIRES ====
 document.getElementById("showLogin")?.addEventListener("click", () => {
   document.querySelector(".registration-form-section").style.display = "none";
   document.querySelector(".login-form-section").style.display = "block";
@@ -74,18 +68,24 @@ document.getElementById("showRegister")?.addEventListener("click", () => {
   document.querySelector(".registration-form-section").style.display = "block";
 });
 
-// ==========================
-// GENERATION DE TICKETS
-// ==========================
+// ==== BOUTON MENU / CONNEXION HEADER ====
+document.getElementById("menuBtn")?.addEventListener("click", () => {
+  alert("Menu :\n- Mon Compte\n- Mes Tickets\n- Les Lots");
+});
+
+document.getElementById("loginBtn")?.addEventListener("click", () => {
+  document.querySelector(".registration-form-section").style.display = "none";
+  document.querySelector(".login-form-section").style.display = "block";
+});
+
+// ==== GENERATION TICKETS ====
 function generateTicket() {
   const prefix = "TMB";
   const randomNum = Math.floor(100000 + Math.random() * 900000);
   return `${prefix}${randomNum}`;
 }
 
-// ==========================
-// ACHAT DE TICKETS
-// ==========================
+// ==== ACHAT TICKETS ====
 function buyTickets(quantity, price) {
   const user = auth.currentUser;
   if (!user) {
@@ -94,7 +94,9 @@ function buyTickets(quantity, price) {
   }
 
   const tickets = [];
-  for (let i = 0; i < quantity; i++) tickets.push(generateTicket());
+  for (let i = 0; i < quantity; i++) {
+    tickets.push(generateTicket());
+  }
 
   if (database) {
     tickets.forEach((t) => {
