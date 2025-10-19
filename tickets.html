@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes Tickets 🎫 - Tambola des Taulards</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🥷 Tambola des Taulards 🎟️</h1>
+    <nav>
+      <a href="index.html">Accueil</a> |
+      <a href="lot-detail.html">Lots</a> |
+      <a href="payment.html">Paiement</a>
+    </nav>
+  </header>
+
+  <section class="tickets-section">
+    <h2>Mes Tickets</h2>
+    <div id="user-tickets">
+      <p>Vos tickets apparaîtront ici après l'achat.</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Tambola des Taulards — Tous droits réservés
+  </footer>
+
+  <script>
+    // Affiche les tickets de l'utilisateur connecté
+    const ticketsDiv = document.getElementById("user-tickets");
+    const user = firebase.auth().currentUser;
+
+    if(user && firebase.database) {
+      firebase.database().ref("tickets/" + user.uid).once("value").then(snapshot => {
+        ticketsDiv.innerHTML = "";
+        if(snapshot.exists()) {
+          snapshot.forEach(child => {
+            const t = child.val();
+            const p = document.createElement("p");
+            p.textContent = `Ticket : ${t.ticketNumber} — Prix : ${t.price}€`;
+            ticketsDiv.appendChild(p);
+          });
+        } else {
+          ticketsDiv.textContent = "Vous n'avez aucun ticket pour le moment.";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
