@@ -1,26 +1,20 @@
-// ==== CONFIGURATION FIREBASE (mode compatibilité pour navigateur) ====
-
-// Configuration Firebase de ton projet
+// ==== CONFIGURATION FIREBASE ====
 const firebaseConfig = {
   apiKey: "AIzaSyDmxL3LwvoX7QrwD1uU9lFnKGNqu8cmO7w",
   authDomain: "tamboladenoel.firebaseapp.com",
   projectId: "tamboladenoel",
-  storageBucket: "tamboladenoel.appspot.com", // ✅ corrigé ici
+  storageBucket: "tamboladenoel.appspot.com",
   messagingSenderId: "1041101149299",
   appId: "1:1041101149299:web:d81f6ffcba7fd0eb16c606",
   measurementId: "G-KBB6JJQ45D"
 };
 
-// Initialisation de Firebase
 firebase.initializeApp(firebaseConfig);
-console.log("✅ Firebase initialisé :", firebase.apps.length ? "OK" : "Erreur");
-
-// Récupération des services
 const auth = firebase.auth();
 const database = firebase.database ? firebase.database() : null;
 
 // ==========================
-// GESTION INSCRIPTION UTILISATEUR
+// INSCRIPTION
 // ==========================
 const registerForm = document.getElementById("registerForm");
 if (registerForm) {
@@ -33,7 +27,6 @@ if (registerForm) {
     auth.createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        // Enregistrer les infos dans la base
         if (database) {
           database.ref("users/" + user.uid).set({
             username: username,
@@ -44,14 +37,12 @@ if (registerForm) {
         alert(`✅ Compte créé pour ${username} !`);
         registerForm.reset();
       })
-      .catch((error) => {
-        alert("❌ Erreur : " + error.message);
-      });
+      .catch((error) => alert("❌ Erreur : " + error.message));
   });
 }
 
 // ==========================
-// GESTION CONNEXION UTILISATEUR
+// CONNEXION
 // ==========================
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
@@ -66,31 +57,22 @@ if (loginForm) {
         alert(`✅ Connecté : ${user.email}`);
         loginForm.reset();
       })
-      .catch((error) => {
-        alert("❌ Erreur : " + error.message);
-      });
+      .catch((error) => alert("❌ Erreur : " + error.message));
   });
 }
 
 // ==========================
-// BOUTONS POUR CHANGER ENTRE FORMULAIRES
+// BASCULE FORMULAIRES
 // ==========================
-const showLogin = document.getElementById("showLogin");
-const showRegister = document.getElementById("showRegister");
+document.getElementById("showLogin")?.addEventListener("click", () => {
+  document.querySelector(".registration-form-section").style.display = "none";
+  document.querySelector(".login-form-section").style.display = "block";
+});
 
-if (showLogin) {
-  showLogin.addEventListener("click", () => {
-    document.querySelector(".registration-form-section").style.display = "none";
-    document.querySelector(".login-form-section").style.display = "block";
-  });
-}
-
-if (showRegister) {
-  showRegister.addEventListener("click", () => {
-    document.querySelector(".login-form-section").style.display = "none";
-    document.querySelector(".registration-form-section").style.display = "block";
-  });
-}
+document.getElementById("showRegister")?.addEventListener("click", () => {
+  document.querySelector(".login-form-section").style.display = "none";
+  document.querySelector(".registration-form-section").style.display = "block";
+});
 
 // ==========================
 // GENERATION DE TICKETS
@@ -102,7 +84,7 @@ function generateTicket() {
 }
 
 // ==========================
-// SIMULATION D’ACHAT DE TICKETS
+// ACHAT DE TICKETS
 // ==========================
 function buyTickets(quantity, price) {
   const user = auth.currentUser;
@@ -112,9 +94,7 @@ function buyTickets(quantity, price) {
   }
 
   const tickets = [];
-  for (let i = 0; i < quantity; i++) {
-    tickets.push(generateTicket());
-  }
+  for (let i = 0; i < quantity; i++) tickets.push(generateTicket());
 
   if (database) {
     tickets.forEach((t) => {
