@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement 💳 - Tambola des Taulards</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>🥷 Tambola des Taulards 🎟️</h1>
+    <nav>
+      <a href="index.html">Accueil</a> |
+      <a href="tickets.html">Mes Tickets</a> |
+      <a href="lot-detail.html">Lots</a>
+    </nav>
+  </header>
+
+  <section class="payment-section">
+    <h2>Effectuer un Paiement</h2>
+    <p>Simulez un paiement pour vos tickets ou lots.</p>
+
+    <form id="paymentForm">
+      <div class="form-group">
+        <label for="amount">Montant (€) :</label>
+        <input type="number" id="amount" required min="1">
+      </div>
+      <div class="form-group">
+        <label for="method">Méthode de paiement :</label>
+        <select id="method">
+          <option value="paypal">PayPal</option>
+          <option value="card">Carte Bancaire</option>
+        </select>
+      </div>
+      <button type="submit">Payer</button>
+    </form>
+  </section>
+
+  <footer>
+    © 2025 Tambola des Taulards — Tous droits réservés
+  </footer>
+
+  <script>
+    const paymentForm = document.getElementById("paymentForm");
+    paymentForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const amount = document.getElementById("amount").value;
+      const method = document.getElementById("method").value;
+      alert(`✅ Paiement simulé : ${amount}€ via ${method}`);
+      paymentForm.reset();
+    });
+  </script>
+</body>
+</html>
