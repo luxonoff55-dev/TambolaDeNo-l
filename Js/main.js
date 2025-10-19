@@ -5,7 +5,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDmxL3LwvoX7QrwD1uU9lFnKGNqu8cmO7w",
   authDomain: "tamboladenoel.firebaseapp.com",
   projectId: "tamboladenoel",
-  storageBucket: "tamboladenoel.firebasestorage.app",
+  storageBucket: "tamboladenoel.appspot.com", // ✅ corrigé ici
   messagingSenderId: "1041101149299",
   appId: "1:1041101149299:web:d81f6ffcba7fd0eb16c606",
   measurementId: "G-KBB6JJQ45D"
@@ -14,6 +14,7 @@ const firebaseConfig = {
 // Initialisation de Firebase
 firebase.initializeApp(firebaseConfig);
 console.log("✅ Firebase initialisé :", firebase.apps.length ? "OK" : "Erreur");
+
 // Récupération des services
 const auth = firebase.auth();
 const database = firebase.database ? firebase.database() : null;
