@@ -11,13 +11,20 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
+  <!-- HEADER -->
   <header>
-    <h1>Tambola des Taulards 🎟️</h1>
+    <div class="header-left">
+      <button id="menuBtn">☰ Menu</button>
+    </div>
+    <h1>🥷 Tambola des Taulards 🎟️</h1>
+    <div class="header-right">
+      <button id="loginBtn">🔑 Connexion</button>
+    </div>
   </header>
 
   <!-- FORMULAIRE INSCRIPTION -->
   <section class="registration-form-section">
-    <h2>Créer un Compte 👤</h2>
+    <h2>Créer un Compte Utilisateur 👤</h2>
     <form id="registerForm">
       <div class="form-group">
         <label for="username">Nom :</label>
@@ -79,17 +86,19 @@
   <section class="prizes-section">
     <h2>🎁 Lots à Gagner</h2>
     <ul>
-      <li><img src="images/drone.png" alt="Drone">Drone FPV (portée 3 km)</li>
-      <li><img src="images/boules.png" alt="Boules">6 Boules offertes</li>
-      <li><img src="images/billets.png" alt="Billets d'argent">400€ (PCS / PayPal)</li>
-      <li><img src="images/iphone.png" alt="iPhone">3 iPhone 12 mini</li>
+      <li>Drone FPV (portée 3 km)</li>
+      <li>6 Boules offertes</li>
+      <li>400€ (PCS / PayPal)</li>
+      <li>3 iPhone 12 mini</li>
     </ul>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     © 2025 Tambola des Taulards — Tous droits réservés
   </footer>
 
+  <!-- SCRIPT JS -->
   <script src="js/main.js"></script>
 </body>
 </html>
