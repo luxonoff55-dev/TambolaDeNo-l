@@ -1,81 +1,129 @@
-// ==== CONFIGURATION FIREBASE ====
+// ==== CONFIGURATION FIREBASE (mode compatibilité pour navigateur) ====
+
+// Configuration Firebase de ton projet
 const firebaseConfig = {
-  apiKey: "VOTRE_API_KEY",
-  authDomain: "VOTRE_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://VOTRE_PROJECT_ID.firebaseio.com",
-  projectId: "VOTRE_PROJECT_ID",
-  storageBucket: "VOTRE_PROJECT_ID.appspot.com",
-  messagingSenderId: "VOTRE_SENDER_ID",
-  appId: "VOTRE_APP_ID"
+  apiKey: "AIzaSyDmxL3LwvoX7QrwD1uU9lFnKGNqu8cmO7w",
+  authDomain: "tamboladenoel.firebaseapp.com",
+  projectId: "tamboladenoel",
+  storageBucket: "tamboladenoel.firebasestorage.app",
+  messagingSenderId: "1041101149299",
+  appId: "1:1041101149299:web:d81f6ffcba7fd0eb16c606",
+  measurementId: "G-KBB6JJQ45D"
 };
 
+// Initialisation de Firebase
 firebase.initializeApp(firebaseConfig);
+
+// Récupération des services
 const auth = firebase.auth();
-const database = firebase.database();
+const database = firebase.database ? firebase.database() : null;
 
-// ==== INSCRIPTION UTILISATEUR ====
+// ==========================
+// GESTION INSCRIPTION UTILISATEUR
+// ==========================
 const registerForm = document.getElementById("registerForm");
-registerForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("emailReg").value;
-  const password = document.getElementById("password").value;
+if (registerForm) {
+  registerForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("emailReg").value;
+    const password = document.getElementById("password").value;
 
-  auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      database.ref("users/" + user.uid).set({
-        username: username,
-        email: email
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        // Enregistrer les infos dans la base
+        if (database) {
+          database.ref("users/" + user.uid).set({
+            username: username,
+            email: email,
+            createdAt: new Date().toISOString()
+          });
+        }
+        alert(`✅ Compte créé pour ${username} !`);
+        registerForm.reset();
+      })
+      .catch((error) => {
+        alert("❌ Erreur : " + error.message);
       });
-      alert(`✅ Compte créé pour ${username} !`);
-      registerForm.reset();
-    })
-    .catch((error) => {
-      alert("❌ " + error.message);
-    });
-});
+  });
+}
 
-// ==== CONNEXION UTILISATEUR ====
+// ==========================
+// GESTION CONNEXION UTILISATEUR
+// ==========================
 const loginForm = document.getElementById("loginForm");
-loginForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const email = document.getElementById("emailLogin").value;
-  const password = document.getElementById("passwordLogin").value;
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("emailLogin").value;
+    const password = document.getElementById("passwordLogin").value;
 
-  auth.signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      alert(`✅ Connecté : ${email}`);
-      loginForm.reset();
-    })
-    .catch((error) => {
-      alert("❌ " + error.message);
-    });
-});
+    auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        alert(`✅ Connecté : ${user.email}`);
+        loginForm.reset();
+      })
+      .catch((error) => {
+        alert("❌ Erreur : " + error.message);
+      });
+  });
+}
 
-// ==== BASCULE INSCRIPTION / CONNEXION ====
-document.getElementById("showLogin").addEventListener("click", () => {
-  document.querySelector(".registration-form-section").style.display = "none";
-  document.querySelector(".login-form-section").style.display = "block";
-});
-document.getElementById("showRegister").addEventListener("click", () => {
-  document.querySelector(".login-form-section").style.display = "none";
-  document.querySelector(".registration-form-section").style.display = "block";
-});
+// ==========================
+// BOUTONS POUR CHANGER ENTRE FORMULAIRES
+// ==========================
+const showLogin = document.getElementById("showLogin");
+const showRegister = document.getElementById("showRegister");
 
-// ==== GENERATION DE TICKETS ====
+if (showLogin) {
+  showLogin.addEventListener("click", () => {
+    document.querySelector(".registration-form-section").style.display = "none";
+    document.querySelector(".login-form-section").style.display = "block";
+  });
+}
+
+if (showRegister) {
+  showRegister.addEventListener("click", () => {
+    document.querySelector(".login-form-section").style.display = "none";
+    document.querySelector(".registration-form-section").style.display = "block";
+  });
+}
+
+// ==========================
+// GENERATION DE TICKETS
+// ==========================
 function generateTicket() {
   const prefix = "TMB";
   const randomNum = Math.floor(100000 + Math.random() * 900000);
   return `${prefix}${randomNum}`;
 }
 
-// ==== ACHAT DE TICKETS PAYANTS ====
+// ==========================
+// SIMULATION D’ACHAT DE TICKETS
+// ==========================
 function buyTickets(quantity, price) {
+  const user = auth.currentUser;
+  if (!user) {
+    alert("⚠️ Vous devez être connecté pour acheter un ticket !");
+    return;
+  }
+
   const tickets = [];
-  for(let i = 0; i < quantity; i++){
+  for (let i = 0; i < quantity; i++) {
     tickets.push(generateTicket());
   }
-  alert(`✅ Achat réussi !\nTickets : ${tickets.join(", ")}\nMontant : ${price}€`);
-  // Ici, tu peux intégrer Stripe / PayPal Checkout
+
+  if (database) {
+    tickets.forEach((t) => {
+      database.ref("tickets/" + user.uid + "/" + t).set({
+        ticketNumber: t,
+        price: price / quantity,
+        createdAt: new Date().toISOString()
+      });
+    });
+  }
+
+  alert(`✅ Achat confirmé !\nTickets : ${tickets.join(", ")}\nMontant : ${price}€`);
 }
