@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎫 Mes Tickets - Tambola des Taulards</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <button class="menu-btn">☰ Menu</button>
+      <span class="site-logo">🥷 Tambola des Taulards</span>
+    </div>
+    <div class="header-right">
+      <a href="account.html" class="connect-btn">Mon Compte</a>
+    </div>
+  </header>
+
+  <nav class="side-menu">
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="account.html">Mon Compte</a></li>
+      <li><a href="ticket.html">Tickets</a></li>
+      <li><a href="lot.html">Lots</a></li>
+    </ul>
+  </nav>
+
+  <section class="ticket-section">
+    <h2>🎫 Mes Tickets</h2>
+    <p>Voici vos tickets achetés :</p>
+    <ul id="ticketList">
+      <!-- Les tickets seront affichés ici via JS -->
+    </ul>
+    <button onclick="buyTickets(1, 10)">Acheter 1 Ticket</button>
+  </section>
+
+  <footer>
+    © 2025 Tambola des Taulards — Tous droits réservés
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
