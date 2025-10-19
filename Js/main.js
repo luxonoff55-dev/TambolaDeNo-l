@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 // Initialisation de Firebase
 firebase.initializeApp(firebaseConfig);
-
+console.log("✅ Firebase initialisé :", firebase.apps.length ? "OK" : "Erreur");
 // Récupération des services
 const auth = firebase.auth();
 const database = firebase.database ? firebase.database() : null;
